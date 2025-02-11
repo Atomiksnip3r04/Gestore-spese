@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Dettaglio Famiglia - {{ member.username }}{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Dashboard di {{ member.username }}</h2>
+  
+  <h3>Spese</h3>
+  {% if expenses %}
+    <ul class="list-group mb-4">
+      {% for exp in expenses %}
+        <li class="list-group-item">
+          {{ exp.date.strftime('%d-%m-%Y') }} - {{ exp.category }}: {{ exp.amount }}<br>
+          {{ exp.description }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Nessuna spesa registrata.</p>
+  {% endif %}
+  
+  <h3>Entrate</h3>
+  {% if incomes %}
+    <ul class="list-group mb-4">
+      {% for inc in incomes %}
+        <li class="list-group-item">
+          {{ inc.date.strftime('%d-%m-%Y') }} - {{ inc.category }}: {{ inc.amount }}<br>
+          {{ inc.description }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Nessuna entrata registrata.</p>
+  {% endif %}
+  
+  <h3>Prestiti</h3>
+  {% if loans %}
+    <ul class="list-group mb-4">
+      {% for loan in loans %}
+        <li class="list-group-item">
+          {{ loan.name }}: {{ loan.amount }}<br>
+          Scadenza: {{ loan.due_date.strftime('%d-%m-%Y') }}<br>
+          {{ loan.description }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Nessun prestito registrato.</p>
+  {% endif %}
+  
+  <h3>Pagamenti Ricorrenti</h3>
+  {% if recurring %}
+    <ul class="list-group mb-4">
+      {% for rec in recurring %}
+        <li class="list-group-item">
+          {{ rec.name }}: {{ rec.amount }}<br>
+          Scadenza: {{ rec.due_date.strftime('%d-%m-%Y') }}<br>
+          Recorrenza: {{ rec.recurrence }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Nessun pagamento ricorrente registrato.</p>
+  {% endif %}
+  
+  <a href="{{ url_for('family') }}" class="btn btn-secondary">Torna alla Sezione Famiglia</a>
+</div>
+{% endblock %} 

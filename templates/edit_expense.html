@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Modifica Spesa - Gestione Spese{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3>Modifica Spesa</h3>
+  </div>
+  <div class="card-body">
+    <form method="POST">
+      <div class="form-group">
+        <label for="date">Data</label>
+        <input type="date" class="form-control" name="date" id="date" value="{{ expense.date.strftime('%Y-%m-%d') }}" required>
+      </div>
+      <div class="form-group">
+        <label for="amount">Importo</label>
+        <input type="number" step="0.01" class="form-control" name="amount" id="amount" value="{{ expense.amount }}" required>
+      </div>
+      <div class="form-group">
+        <label for="category">Categoria</label>
+        <select class="form-control" name="category" id="category">
+          <option value="Alimentari" {% if expense.category == 'Alimentari' %}selected{% endif %}>Alimentari</option>
+          <option value="Trasporti" {% if expense.category == 'Trasporti' %}selected{% endif %}>Trasporti</option>
+          <option value="Intrattenimento" {% if expense.category == 'Intrattenimento' %}selected{% endif %}>Intrattenimento</option>
+          <option value="Utenze" {% if expense.category == 'Utenze' %}selected{% endif %}>Utenze</option>
+          <option value="Salute" {% if expense.category == 'Salute' %}selected{% endif %}>Salute</option>
+          <option value="Altro" {% if expense.category == 'Altro' %}selected{% endif %}>Altro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="description">Descrizione</label>
+        <input type="text" class="form-control" name="description" id="description" value="{{ expense.description }}">
+      </div>
+      <button type="submit" class="btn btn-primary">Aggiorna Spesa</button>
+      <a href="{{ url_for('expenses') }}" class="btn btn-secondary">Annulla</a>
+    </form>
+  </div>
+</div>
+{% endblock %} 

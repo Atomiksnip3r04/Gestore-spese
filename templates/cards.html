@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Carte - Gestione Spese{% endblock %}
+{% block content %}
+<h2>Gestisci le tue Carte</h2>
+<form method="POST">
+  <div class="form-group">
+    <label for="card_name">Nome Carta</label>
+    <input type="text" class="form-control" name="card_name" id="card_name" required>
+  </div>
+  <div class="form-group">
+    <label for="card_network">Circuito</label>
+    <select name="card_network" id="card_network" class="form-control" required>
+      <option value="Visa">Visa</option>
+      <option value="Mastercard">Mastercard</option>
+      <!-- Aggiungi altri circuiti se necessario -->
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="masked_number">Numero Carta (mascherato)</label>
+    <input type="text" class="form-control" name="masked_number" id="masked_number" placeholder="**** **** **** 1234" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Aggiungi Carta</button>
+</form>
+
+<hr>
+<h3>Le tue Carte</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Circuito</th>
+      <th>Numero (mascherato)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for card in cards %}
+    <tr>
+      <td>{{ card.card_name }}</td>
+      <td>{{ card.card_network }}</td>
+      <td>{{ card.masked_number }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} 

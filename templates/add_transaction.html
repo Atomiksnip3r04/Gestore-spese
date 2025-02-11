@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Aggiungi Transazione - Gestione Spese{% endblock %}
+{% block content %}
+<h2>Aggiungi Transazione</h2>
+<form method="POST">
+  <div class="form-group">
+    <label for="date">Data</label>
+    <input type="date" class="form-control" name="date" id="date" required>
+  </div>
+  <div class="form-group">
+    <label for="card_id">Carta</label>
+    <select name="card_id" id="card_id" class="form-control" required>
+      {% for card in cards %}
+      <option value="{{ card.id }}">{{ card.card_name }} ({{ card.card_network }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="direction">Tipo di Transazione</label>
+    <select name="direction" id="direction" class="form-control" required>
+      <option value="in">Entrata</option>
+      <option value="out">Uscita</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="amount">Importo</label>
+    <input type="number" step="0.01" class="form-control" name="amount" id="amount" required>
+  </div>
+  <div class="form-group">
+    <label for="description">Descrizione</label>
+    <input type="text" class="form-control" name="description" id="description">
+  </div>
+  <button type="submit" class="btn btn-primary">Aggiungi Transazione</button>
+</form>
+{% endblock %} 

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Collega la tua Carta{% endblock %}
+{% block content %}
+<h2>Collega il tuo conto tramite Plaid</h2>
+<button id="link-button" class="btn btn-primary">Collega Conto</button>
+
+<!-- Inclusione del JavaScript di Plaid Link -->
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script>
+  // Richiedi al server il link token
+  fetch("/create_link_token", { method: "POST" })
+    .then(response => response.json())
+    .then(data => {
+      const linkToken = data.link_token;
+      
+      // Inizializza il widget Plaid Link
+      const linkHandler = Plaid.create({
+        token: linkToken,
+        onSuccess: function(public_token, metadata) {
+          // Scambia il public token con l'access token sul server
+          fetch("/exchange_public_token", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ public_token: public_token })
+          })
+          .then(response => response.json())
+          .then(result => {
+            console.log("Conto collegato con successo:", result);
+            // Reindirizza alla pagina delle transazioni dopo il collegamento
+            window.location.href = "{{ url_for('transactions') }}";
+          });
+        },
+        onExit: function(err, metadata){
+          if (err) {
+            console.error("Errore durante il collegamento:", err);
+          }
+        },
+        onEvent: function(eventName, metadata){
+          console.log("Evento:", eventName, metadata);
+        }
+      });
+      
+      // Aggiungi un listener al bottone per aprire il widget
+      document.getElementById("link-button").addEventListener("click", function() {
+          linkHandler.open();
+      });
+    });
+</script>
+{% endblock %} 

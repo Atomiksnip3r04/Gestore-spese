@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Transazioni - Gestione Spese{% endblock %}
+{% block content %}
+<h2>Tracciamento Transazioni</h2>
+<!-- Form per filtrare le transazioni -->
+<form method="GET" class="form-inline mb-4">
+  <label for="card_id" class="mr-2">Seleziona Carta:</label>
+  <select class="form-control mr-2" name="card_id" id="card_id">
+    <option value="all" {% if selected_card == 'all' %}selected{% endif %}>Tutte le carte</option>
+    {% for card in cards %}
+      <option value="{{ card.id }}" {% if selected_card|int == card.id %}selected{% endif %}>
+        {{ card.card_name }} ({{ card.card_network }})
+      </option>
+    {% endfor %}
+  </select>
+  <label for="start_date" class="mr-2">Dal:</label>
+  <input type="date" class="form-control mr-2" name="start_date" id="start_date" value="{{ start_date }}">
+  <label for="end_date" class="mr-2">Al:</label>
+  <input type="date" class="form-control mr-2" name="end_date" id="end_date" value="{{ end_date }}">
+  <button type="submit" class="btn btn-primary">Filtra</button>
+</form>
+
+<!-- Resoconto Totale -->
+<div class="alert alert-info">
+  <strong>Resoconto:</strong> Entrate Totali: €{{ total_in }}, Uscite Totali: €{{ total_out }}
+</div>
+
+<!-- Tabella delle transazioni -->
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Carta</th>
+        <th>Tipo</th>
+        <th>Importo</th>
+        <th>Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in transactions %}
+      <tr>
+        <td>{{ t.date.strftime("%d-%m-%Y") }}</td>
+        <td>{{ t.card.card_name }} ({{ t.card.card_network }})</td>
+        <td>{% if t.direction == 'in' %}Entrata{% else %}Uscita{% endif %}</td>
+        <td>{{ t.amount }}</td>
+        <td>{{ t.description }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Link per aggiungere una nuova transazione -->
+<a href="{{ url_for('add_transaction') }}" class="btn btn-success mt-3">Aggiungi Transazione</a>
+{% endblock %} 

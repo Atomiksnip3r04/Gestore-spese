@@ -1,23 +1,36 @@
 {% extends "base.html" %}
-{% block title %}Famiglia - Gestione Spese{% endblock %}
+{% block title %}Sezione Famiglia{% endblock %}
 {% block content %}
-<h2>Resoconto Famiglia</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Membro</th>
-            <th>Totale Spese</th>
-            <th>Totale Entrate</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for member in data %}
-        <tr>
-            <td>{{ member.username }}</td>
-            <td>{{ member.total_expenses }} €</td>
-            <td>{{ member.total_incomes }} €</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container mt-4">
+  <h2>Sezione Famiglia</h2>
+  {% if family_data %}
+    <div class="row">
+      {% for item in family_data %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.member.username }}</h5>
+              <p class="card-text">
+                <strong>Totale Spese:</strong> {{ item.total_expenses }}<br>
+                {% if item.recent_expense %}
+                  <strong>Spesa Recente:</strong> {{ item.recent_expense.amount }} il {{ item.recent_expense.date.strftime('%d-%m-%Y') }}<br>
+                {% else %}
+                  Nessuna spesa registrata.<br>
+                {% endif %}
+                {% if item.largest_expense %}
+                  <strong>Spesa Maggiore:</strong> {{ item.largest_expense.amount }} il {{ item.largest_expense.date.strftime('%d-%m-%Y') }}
+                {% else %}
+                  Nessuna spesa registrata.
+                {% endif %}
+              </p>
+              <a href="{{ url_for('family_detail', member_id=item.member.id) }}" class="btn btn-primary">Approfondisci</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Nessun membro della famiglia registrato.</p>
+  {% endif %}
+</div>
 {% endblock %} 

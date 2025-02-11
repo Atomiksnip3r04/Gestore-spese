@@ -1,16 +1,44 @@
 {% extends "base.html" %}
 {% block title %}Grafici - Gestione Spese{% endblock %}
 {% block content %}
-<h2>Grafici delle Categorie</h2>
-<div class="row">
-    <div class="col-md-6">
-        <h4>Spese per Categoria</h4>
-        <canvas id="expensesChart"></canvas>
-    </div>
-    <div class="col-md-6">
-        <h4>Entrate per Categoria</h4>
-        <canvas id="incomesChart"></canvas>
-    </div>
+<h2>Grafici</h2>
+<!-- Grafico delle spese tramite Chart.js -->
+<canvas id="expensesChart" width="400" height="200"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  var ctx = document.getElementById('expensesChart').getContext('2d');
+  var expensesChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: {{ expenses_categories|tojson }},
+          datasets: [{
+              label: 'Totale Spese',
+              data: {{ expenses_values|tojson }},
+              backgroundColor: 'rgba(54, 162, 235, 0.5)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+</script>
+<!-- Legenda dinamica - Riepilogo Spese per Categoria -->
+<div class="mt-5">
+  <h4>Legenda - Riepilogo Spese per Categoria</h4>
+  <ul class="list-group">
+    {% for i in range(expenses_categories|length) %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+         {{ expenses_categories[i] }}
+         <span class="badge badge-primary badge-pill">{{ expenses_values[i] }} €</span>
+      </li>
+    {% endfor %}
+  </ul>
 </div>
 {% endblock %}
 {% block scripts %}
