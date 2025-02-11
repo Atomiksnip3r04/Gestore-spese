@@ -86,14 +86,14 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('account') }}">Account</a>
-              </li>
-              <li class="nav-item">
-                {% if current_user and current_user.avatar %}
-                   <img src="{{ url_for('static', filename='avatars/' + current_user.avatar) }}" alt="Avatar" class="navbar-avatar">
-                {% else %}
-                   <img src="{{ url_for('static', filename='avatars/default-avatar.jpg') }}" alt="Avatar" class="navbar-avatar">
-                {% endif %}
+                <a class="nav-link d-flex align-items-center" href="{{ url_for('account') }}">
+                  <span><i class="fas fa-user mr-1"></i>Account</span>
+                  {% if current_user and current_user.avatar %}
+                      <img src="{{ url_for('static', filename='avatars/' + current_user.avatar) }}" alt="Avatar" class="navbar-avatar" style="max-height: 30px; width:auto; vertical-align: middle; margin-left:5px;">
+                  {% else %}
+                      <img src="{{ url_for('static', filename='avatars/default-avatar.jpg') }}" alt="Avatar" class="navbar-avatar" style="max-height: 30px; width:auto; vertical-align: middle; margin-left:5px;">
+                  {% endif %}
+                </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('logout') }}">
