@@ -8,10 +8,10 @@ from flask_migrate import Migrate
 import plaid
 from plaid.api import plaid_api
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
 app.config['SECRET_KEY'] = 'your_secret_key'
-# Configurazione del database in SQLite (l'utilizzo è locale)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///expenses.db')
+# Configurazione del database: se DATABASE_URL non è impostato, usa SQLite nella cartella instance
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///' + os.path.join(app.instance_path, 'expenses.db'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
