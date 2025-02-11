@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Account - Gestione Spese{% endblock %}
+{% block content %}
+<h2>Il tuo Profilo</h2>
+<p><strong>Nome utente:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+{% if user.family %}
+<p><strong>Famiglia:</strong> {{ user.family }}</p>
+{% endif %}
+<p><a class="btn btn-secondary" href="{{ url_for('logout') }}">Logout</a></p>
+{% endblock %} 

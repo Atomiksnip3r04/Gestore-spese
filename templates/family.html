@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Famiglia - Gestione Spese{% endblock %}
+{% block content %}
+<h2>Resoconto Famiglia</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Membro</th>
+            <th>Totale Spese</th>
+            <th>Totale Entrate</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for member in data %}
+        <tr>
+            <td>{{ member.username }}</td>
+            <td>{{ member.total_expenses }} €</td>
+            <td>{{ member.total_incomes }} €</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %} 

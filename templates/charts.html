@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Grafici - Gestione Spese{% endblock %}
+{% block content %}
+<h2>Grafici delle Categorie</h2>
+<div class="row">
+    <div class="col-md-6">
+        <h4>Spese per Categoria</h4>
+        <canvas id="expensesChart"></canvas>
+    </div>
+    <div class="col-md-6">
+        <h4>Entrate per Categoria</h4>
+        <canvas id="incomesChart"></canvas>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctxExpenses = document.getElementById('expensesChart').getContext('2d');
+    new Chart(ctxExpenses, {
+        type: 'pie',
+        data: {
+            labels: {{ expenses_categories|tojson }},
+            datasets: [{
+                data: {{ expenses_values|tojson }},
+                backgroundColor: ['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)','rgba(255, 206, 86, 0.6)','rgba(75, 192, 192, 0.6)','rgba(153, 102, 255, 0.6)','rgba(255, 159, 64, 0.6)']
+            }]
+        },
+        options: { responsive: true }
+    });
+    
+    var ctxIncomes = document.getElementById('incomesChart').getContext('2d');
+    new Chart(ctxIncomes, {
+        type: 'pie',
+        data: {
+            labels: {{ incomes_categories|tojson }},
+            datasets: [{
+                data: {{ incomes_values|tojson }},
+                backgroundColor: ['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)','rgba(255, 206, 86, 0.6)','rgba(75, 192, 192, 0.6)']
+            }]
+        },
+        options: { responsive: true }
+    });
+</script>
+{% endblock %} 

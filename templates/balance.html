@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Bilancio - Gestione Spese{% endblock %}
+{% block content %}
+<h2>Bilancio per il Mese Selezionato</h2>
+<form method="POST" class="mb-4">
+   <div class="form-row">
+      <div class="col">
+         <input type="number" class="form-control" name="year" placeholder="Anno" value="{{ year }}" required>
+      </div>
+      <div class="col">
+         <input type="number" class="form-control" name="month" placeholder="Mese" value="{{ month }}" required min="1" max="12">
+      </div>
+      <div class="col">
+         <button type="submit" class="btn btn-primary">Mostra Bilancio</button>
+      </div>
+   </div>
+</form>
+<h3>Risultati del Bilancio</h3>
+<p><strong>Totale Entrate:</strong> {{ total_incomes }} €</p>
+<p><strong>Totale Spese:</strong> {{ total_expenses }} €</p>
+<p><strong>Saldo:</strong> {{ balance }} €</p>
+{% endblock %} 
