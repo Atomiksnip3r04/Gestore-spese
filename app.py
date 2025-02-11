@@ -11,7 +11,7 @@ from plaid.api import plaid_api
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 # Configurazione del database in SQLite (l'utilizzo è locale)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///expenses.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
