@@ -89,7 +89,11 @@
                 <a class="nav-link" href="{{ url_for('account') }}">Account</a>
               </li>
               <li class="nav-item">
-                <img src="{{ url_for('static', filename='avatars/' ~ current_user.avatar) }}" alt="Avatar" class="avatar-icon" style="margin-left: 10px;">
+                {% if current_user and current_user.avatar %}
+                   <img src="{{ url_for('static', filename='avatars/' + current_user.avatar) }}" alt="Avatar" class="navbar-avatar">
+                {% else %}
+                   <img src="{{ url_for('static', filename='avatars/default-avatar.jpg') }}" alt="Avatar" class="navbar-avatar">
+                {% endif %}
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('logout') }}">

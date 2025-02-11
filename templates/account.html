@@ -6,7 +6,11 @@
   <div class="row">
     <div class="col-md-4">
       <h4>Profilo</h4>
-      <img src="{{ url_for('static', filename='avatars/' + current_user.avatar) }}" alt="Avatar" class="img-thumbnail" style="max-height: 150px;">
+      {% if current_user and current_user.avatar %}
+         <img src="{{ url_for('static', filename='avatars/' + current_user.avatar) }}" alt="Avatar" class="img-thumbnail" style="max-height: 150px;">
+      {% else %}
+         <img src="{{ url_for('static', filename='avatars/default-avatar.jpg') }}" alt="Avatar" class="img-thumbnail" style="max-height: 150px;">
+      {% endif %}
       <p><strong>Username:</strong> {{ current_user.username }}</p>
       <p><strong>Email:</strong> {{ current_user.email }}</p>
       <p><strong>Famiglia:</strong> {{ current_user.family }}</p>
